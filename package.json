@@ -1,0 +1,32 @@
+{
+  "name": "orion-desktop",
+  "productName": "ORION",
+  "version": "4.0.0",
+  "description": "ORION — Sovereign Intelligence OS (aplikasi desktop Windows, macOS, dan Linux)",
+  "main": "src/main.js",
+  "author": "DIGIUM",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "prepare:app": "node scripts/prepare-app.js",
+    "start": "npm run prepare:app && electron .",
+    "test": "node scripts/selftest.js && node scripts/test-connectors.js && node scripts/test-webtools.js && node scripts/test-extract.js && node scripts/test-bridge.js",
+    "dist:win": "npm run prepare:app && electron-builder --win --config electron-builder.config.js --publish never",
+    "dist:mac": "npm run prepare:app && electron-builder --mac --config electron-builder.config.js --publish never",
+    "dist:win:legacy": "cross-env ORION_PROFILE=legacy npm run dist:win",
+    "dist:mac:legacy": "cross-env ORION_PROFILE=legacy npm run dist:mac",
+    "legacy:electron": "npm install --no-save electron@22.3.27",
+    "dist:linux": "npm run prepare:app && electron-builder --linux --config electron-builder.config.js --publish never"
+  },
+  "devDependencies": {
+    "@fontsource/inter": "^5.0.0",
+    "@fontsource/jetbrains-mono": "^5.0.0",
+    "@fontsource/space-grotesk": "^5.0.0",
+    "cross-env": "^7.0.3",
+    "electron": "^43.0.0",
+    "electron-builder": "^26.0.0"
+  },
+  "dependencies": {
+    "electron-updater": "^6.3.0"
+  }
+}

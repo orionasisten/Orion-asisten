@@ -1,0 +1,192 @@
+{
+  "providers": [
+    {
+      "id": "openai",
+      "name": "OpenAI",
+      "base": "https://api.openai.com/v1",
+      "protocol": "openai",
+      "defaultModel": "gpt-4o-mini",
+      "keyRequired": true,
+      "note": "Key dari platform.openai.com."
+    },
+    {
+      "id": "anthropic",
+      "name": "Anthropic (mode kompatibel OpenAI)",
+      "base": "https://api.anthropic.com/v1",
+      "protocol": "openai",
+      "keyRequired": true,
+      "note": "Endpoint kompatibilitas untuk pengujian; fitur khusus Claude tidak semuanya tersedia."
+    },
+    {
+      "id": "openrouter",
+      "name": "OpenRouter (ID model format vendor/model)",
+      "base": "https://openrouter.ai/api/v1",
+      "protocol": "openai",
+      "keyRequired": true,
+      "note": "Satu key untuk banyak model. ID model di sini berawalan vendor, mis. google/gemini-3.5-flash-lite — hanya valid untuk router ini."
+    },
+    {
+      "id": "groq",
+      "name": "Groq",
+      "base": "https://api.groq.com/openai/v1",
+      "protocol": "openai",
+      "defaultModel": "llama-3.3-70b-versatile",
+      "keyRequired": true,
+      "note": ""
+    },
+    {
+      "id": "gemini",
+      "name": "Google Gemini — endpoint kompatibel OpenAI",
+      "base": "https://generativelanguage.googleapis.com/v1beta/openai",
+      "protocol": "openai",
+      "defaultModel": "gemini-2.5-flash",
+      "keyRequired": true,
+      "note": "Jalur /v1beta/openai (protokol OpenAI). ID model polos, TANPA awalan google/."
+    },
+    {
+      "id": "gemini-native",
+      "name": "Google Gemini — API native (generateContent)",
+      "base": "https://generativelanguage.googleapis.com/v1beta",
+      "protocol": "gemini",
+      "defaultModel": "gemini-2.5-flash",
+      "keyRequired": true,
+      "note": "Jalur /v1beta/models/{model}:generateContent dengan header x-goog-api-key. ID model polos, TANPA awalan google/."
+    },
+    {
+      "id": "mistral",
+      "name": "Mistral",
+      "base": "https://api.mistral.ai/v1",
+      "protocol": "openai",
+      "defaultModel": "mistral-small-latest",
+      "keyRequired": true,
+      "note": ""
+    },
+    {
+      "id": "deepseek",
+      "name": "DeepSeek",
+      "base": "https://api.deepseek.com/v1",
+      "protocol": "openai",
+      "defaultModel": "deepseek-chat",
+      "keyRequired": true,
+      "note": ""
+    },
+    {
+      "id": "together",
+      "name": "Together AI",
+      "base": "https://api.together.xyz/v1",
+      "protocol": "openai",
+      "keyRequired": true,
+      "note": ""
+    },
+    {
+      "id": "ollama",
+      "name": "Ollama (lokal)",
+      "base": "http://localhost:11434/v1",
+      "protocol": "openai",
+      "defaultModel": "llama3.2",
+      "keyRequired": false,
+      "note": "Jalankan Ollama lebih dulu; data tidak keluar dari komputer."
+    },
+    {
+      "id": "lmstudio",
+      "name": "LM Studio (lokal)",
+      "base": "http://localhost:1234/v1",
+      "protocol": "openai",
+      "keyRequired": false,
+      "note": "Aktifkan Local Server di LM Studio."
+    }
+  ],
+  "agents": {
+    "claude": {
+      "label": "Claude Code",
+      "cmd": "claude",
+      "args": [
+        "-p"
+      ]
+    },
+    "codex": {
+      "label": "OpenAI Codex CLI",
+      "cmd": "codex",
+      "args": [
+        "exec",
+        "-"
+      ]
+    }
+  },
+  "mcp": [
+    {
+      "id": "rea",
+      "name": "REA — Reverse Engineer Anything",
+      "command": "npx",
+      "args": [
+        "-y",
+        "rea-agents@6.4.0",
+        "mcp"
+      ],
+      "env": {
+        "REA_MCP_INPUT_SCHEMA_PROFILE": "compact"
+      },
+      "strict": true,
+      "note": "Reverse engineering berbasis bukti (biner, Electron/JS, .NET, Android, firmware). Butuh Node.js 22.19+/24.11+/26+. Selalu minta izin per panggilan. Gunakan hanya pada target yang sah."
+    },
+    {
+      "id": "filesystem",
+      "name": "Filesystem (workspace)",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "{{workspace}}"
+      ],
+      "note": "Baca/tulis berkas di workspace. Butuh Node.js."
+    },
+    {
+      "id": "memory",
+      "name": "Memory (knowledge graph)",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
+      "note": "Ingatan terstruktur antar sesi. Butuh Node.js."
+    },
+    {
+      "id": "sequential-thinking",
+      "name": "Sequential Thinking",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ],
+      "note": "Penalaran bertahap. Butuh Node.js."
+    },
+    {
+      "id": "fetch",
+      "name": "Fetch (ambil halaman web)",
+      "command": "uvx",
+      "args": [
+        "mcp-server-fetch"
+      ],
+      "note": "Butuh uv (uvx)."
+    },
+    {
+      "id": "git",
+      "name": "Git (workspace)",
+      "command": "uvx",
+      "args": [
+        "mcp-server-git",
+        "--repository",
+        "{{workspace}}"
+      ],
+      "note": "Butuh uv (uvx)."
+    }
+  ],
+  "rea": {
+    "package": "rea-agents",
+    "version": "6.4.0",
+    "minNode": "22.19.0",
+    "env": {
+      "REA_MCP_INPUT_SCHEMA_PROFILE": "compact"
+    }
+  }
+}
