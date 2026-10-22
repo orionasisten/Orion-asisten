@@ -40,7 +40,10 @@ module.exports = {
   productName: 'ORION',
   copyright: 'Copyright © DIGIUM',
   directories: { output: `dist/${legacy ? 'legacy' : 'modern'}`, buildResources: 'build' },
-  files: ['src/**/*', 'app/**/*', 'package.json', '!**/*.map'],
+  // pg (driver PostgreSQL) HANYA dipakai proses server Orion Central — tidak perlu di paket desktop.
+  files: ['src/**/*', 'app/**/*', 'package.json', '!**/*.map',
+    '!**/node_modules/pg/**', '!**/node_modules/pg-*/**', '!**/node_modules/postgres-*/**',
+    '!**/node_modules/pgpass/**', '!**/node_modules/split2/**', '!**/node_modules/xtend/**'],
   extraResources: [{ from: 'resources', to: 'resources', filter: ['**/*'] }],
   asar: true,
   compression: 'normal',
@@ -55,11 +58,15 @@ module.exports = {
 
   win: {
     icon: 'build/icon.ico',
-    target: [
-      { target: 'nsis', arch: legacy ? ['x64', 'ia32'] : ['x64', 'arm64'] },
-      { target: 'portable', arch: ['x64'] },
-      { target: 'zip', arch: ['x64'] }
-    ]
+    /* ORION_TARGET (dipakai scripts build:win:*) mempersempit target tanpa mengubah config:
+     *   installer -> NSIS x64 saja; portable -> portable x64 saja; tidak diset -> semuanya (dist:win). */
+    target: process.env.ORION_TARGET === 'installer' ? [{ target: 'nsis', arch: ['x64'] }]
+      : process.env.ORION_TARGET === 'portable' ? [{ target: 'portable', arch: ['x64'] }]
+      : [
+        { target: 'nsis', arch: legacy ? ['x64', 'ia32'] : ['x64', 'arm64'] },
+        { target: 'portable', arch: ['x64'] },
+        { target: 'zip', arch: ['x64'] }
+      ]
   },
   nsis: {
     oneClick: false,
@@ -69,9 +76,10 @@ module.exports = {
     createDesktopShortcut: true,
     createStartMenuShortcut: true,
     shortcutName: 'ORION',
+    artifactName: `ORION-Setup-\${version}-\${arch}${tag}.\${ext}`,
     deleteAppDataOnUninstall: false
   },
-  portable: { artifactName: `ORION-\${version}-portable-\${arch}${tag}.\${ext}` },
+  portable: { artifactName: `ORION-Portable-\${version}-\${arch}${tag}.\${ext}` },
 
   linux: {
     icon: 'build/icon.png',

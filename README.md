@@ -31,17 +31,25 @@ konfigurasi installer **Windows**, **macOS**, dan **Linux** (panduan: [`INSTALL.
 Prasyarat: Node.js 20+ (jalankan `npm install` sekali).
 
 ```bash
-npm install
-npm start               # coba dulu sebagai aplikasi desktop
-npm test                # uji mandiri (tanpa Electron)
+npm install            # atau npm ci untuk penginstalan persis lockfile
+npm start              # coba dulu sebagai aplikasi desktop
+npm test               # uji mandiri Node (58 + 34 + 17 + 7 + 12, tanpa Electron)
+npm run smoke          # uji nyala di Electron asli (tanpa jaringan, tanpa API key)
 
 # Di Windows:
-npm run dist:win        # NSIS installer (x64 + arm64), portable, zip
+npm run build:win:installer   # NSIS installer per-user: dist/modern/ORION-Setup-<vers>-x64.exe
+npm run build:win:portable    # portable tunggal:      dist/modern/ORION-Portable-<vers>-x64.exe
+npm run build:win:all         # keduanya + test + verifikasi runtime + release/ (checksum & manifest)
 # Di macOS:
 npm run dist:mac        # DMG + zip universal (Intel + Apple Silicon)
 # Di Linux:
 npm run dist:linux      # AppImage, .deb, .tar.gz (x64; arm64 dengan ORION_LINUX_ARM64=1)
 ```
+
+Artefak rilis final AdaI di `release/` (2 exe + SHA256SUMS.txt + release-manifest.json + verification.json).
+Verifikasi runtime (install `/S`, launch, uninstall, log) dijalankan lewat `node scripts/verify-release.js`.
+Detail kebijakan data portable, upgrade/uninstall, troubleshooting, dan status code signing:
+[`docs/WINDOWS_RELEASE.md`](docs/WINDOWS_RELEASE.md) dan [`docs/WINDOWS_TEST_REPORT.md`](docs/WINDOWS_TEST_REPORT.md).
 
 Hasil ada di `dist/modern/`. DMG hanya bisa dibuat di macOS; installer Windows paling andal dibuat di Windows.
 
