@@ -1,0 +1,47 @@
+{
+  "expo": {
+    "name": "ORION",
+    "slug": "orion-mobile",
+    "version": "4.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "orion",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#07090D",
+    "splash": {
+      "backgroundColor": "#07090D",
+      "resizeMode": "contain"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "id.digium.orion.mobile",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "ORION memakai mikrofon untuk interaksi suara dengan Owner.",
+        "NSUserNotificationUsageDescription": "ORION mengirim notifikasi saat misi selesai atau ada persetujuan yang perlu keputusan Owner."
+      }
+    },
+    "android": {
+      "package": "id.digium.orion.mobile",
+      "adaptiveIcon": {
+        "backgroundColor": "#07090D"
+      },
+      "permissions": ["POST_NOTIFICATIONS", "VIBRATE"]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-secure-store",
+      [
+        "expo-notifications",
+        {
+          "color": "#F5B82E"
+        }
+      ]
+    ],
+    "extra": {
+      "orionApiUrl": ""
+    }
+  }
+}

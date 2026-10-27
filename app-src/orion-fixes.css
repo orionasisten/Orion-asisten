@@ -1,0 +1,19 @@
+/* ORION Desktop — perbaikan responsif tambahan (desain desktop tidak berubah). */
+.gsearch{min-width:0}
+.gsearch span{min-width:0;flex:1;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.top-right{min-width:0}
+.hub-pre,pre{max-width:100%}
+.row-item{flex-wrap:wrap}.row-item .grow{min-width:0;overflow-wrap:anywhere}.row-acts{flex-wrap:wrap}
+.modal-box,.modal .box,#modal .box{max-width:calc(100vw - 16px)}
+@media (max-width:960px){.gsearch{flex:1 1 0}}
+@media (max-width:620px){
+  #topbar{gap:6px}
+  .gsearch{flex:0 0 auto;padding:9px 11px}.gsearch span{display:none}
+  #btn-full{display:none}
+  .top-right{gap:6px}
+  #ai-chip{padding:5px 8px}#ai-chip-txt{display:none}
+  .profile{padding:4px}.profile>svg{display:none}
+  .card-h{flex-wrap:wrap}
+  .hub-tabs{overflow-x:auto;flex-wrap:nowrap!important;padding-bottom:4px}.hub-tabs .fchip{flex:none}
+}
+@media (max-width:380px){.brand b{display:none}}

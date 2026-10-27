@@ -1,0 +1,12 @@
+{
+  "id": "security-audit",
+  "name": "Security Audit",
+  "version": "1.0.0",
+  "author": "ORION",
+  "description": "Audit cepat manifest dependency dan perubahan kode dari sisi keamanan.",
+  "permissions": ["fs:read", "git:read"],
+  "commands": [
+    { "id": "audit-package", "title": "Audit package.json", "prompt": "Audit manifest dependency berikut dari sisi keamanan dan pemeliharaan (versi usang, paket berisiko, script mencurigakan). Jangan mengarang nomor CVE; jika perlu verifikasi, sebutkan dan sarankan `npm audit`.\n\n{{file:package.json}}" },
+    { "id": "audit-diff", "title": "Audit keamanan perubahan", "prompt": "Periksa diff berikut untuk masalah keamanan (secret, injeksi, validasi input, otorisasi). Format: Tingkat · Lokasi · Dampak · Perbaikan.\n\n{{git.diff}}" }
+  ]
+}

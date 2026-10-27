@@ -1,0 +1,13 @@
+{
+  "id": "project-planning",
+  "name": "Project Planning",
+  "version": "1.0.0",
+  "author": "ORION",
+  "description": "Template perencanaan: pecah proyek jadi task, PRD ringkas, dan register risiko.",
+  "permissions": [],
+  "commands": [
+    { "id": "breakdown", "title": "Pecah proyek jadi task", "input": "Deskripsikan proyek atau fitur", "prompt": "Pecah pekerjaan berikut menjadi daftar task berurutan (maksimal 15), masing-masing dengan estimasi relatif (S/M/L) dan dependensi.\n\nPekerjaan:\n{{input}}" },
+    { "id": "prd", "title": "Susun PRD ringkas", "input": "Ide produk / fitur", "prompt": "Susun PRD ringkas (Masalah, Target pengguna, Tujuan & metrik, Lingkup, Di luar lingkup, Risiko, Pertanyaan terbuka) untuk:\n{{input}}" },
+    { "id": "risks", "title": "Register risiko", "input": "Rencana atau proyek", "prompt": "Buat register risiko (risiko, kemungkinan, dampak, mitigasi, pemilik) untuk rencana berikut. Urutkan dari paling kritis.\n\n{{input}}" }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "dev-workflow",
+  "name": "Dev Workflow",
+  "version": "1.0.0",
+  "author": "ORION",
+  "description": "Review perubahan, ringkas riwayat commit, dan buat pesan commit dari workspace Git.",
+  "permissions": ["git:read"],
+  "commands": [
+    { "id": "review-diff", "title": "Review perubahan (git diff)", "prompt": "Tinjau perubahan kode berikut. Beri temuan berurutan dari blocker sampai saran, sebutkan file bila ada.\n\nStatus:\n{{git.status}}\n\nDiff:\n{{git.diff}}" },
+    { "id": "summarize-log", "title": "Ringkas riwayat commit", "prompt": "Ringkas riwayat commit terbaru ini menjadi catatan rilis singkat dalam Bahasa Indonesia, dikelompokkan per jenis (fitur, perbaikan, lainnya).\n\n{{git.log}}" },
+    { "id": "commit-message", "title": "Buat pesan commit", "prompt": "Tulis satu pesan commit (gaya Conventional Commits, subjek ≤ 72 karakter, body singkat bila perlu) untuk perubahan ini:\n\n{{git.diff}}" }
+  ]
+}

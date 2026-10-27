@@ -1,0 +1,69 @@
+{
+  "name": "orion-desktop",
+  "productName": "ORION",
+  "version": "4.0.0",
+  "description": "ORION — Sovereign Intelligence OS (aplikasi desktop Windows, macOS, dan Linux)",
+  "main": "src/main.js",
+  "author": "DIGIUM",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "prepare:app": "node scripts/prepare-app.js",
+    "start": "npm run prepare:app && electron .",
+    "test:postgres": "node scripts/test-postgres-all.js",
+    "test:postgres:only": "node scripts/pg-harness.js --run scripts/test-phase5-postgres.js",
+    "test:desktop-central": "node scripts/pg-harness.js --run scripts/test-phase5-desktop-central.js",
+    "test:railway": "node scripts/pg-harness.js --run scripts/test-phase5-railway.js",
+    "test:phaseA": "node scripts/pg-harness.js --run scripts/test-phaseA-multidevice.js",
+    "test:phaseB": "node scripts/pg-harness.js --run scripts/test-phaseB-webauth.js",
+    "test:phaseC": "node scripts/pg-harness.js --run scripts/test-phaseC-desktop-sync.js",
+    "e2e:web": "node scripts/pg-harness.js --run-electron scripts/e2e-web.js",
+    "e2e:desktop-central": "node scripts/pg-harness.js --run-electron scripts/e2e-desktop-central.js",
+    "web:install": "cd web && npm install",
+    "web:dev": "cd web && npm run dev",
+    "web:build": "cd web && npm run build",
+    "web:test": "cd web && npm test",
+    "web:typecheck": "cd web && npm run typecheck",
+    "web:icons": "node scripts/make-web-icons.js",
+    "scan:secrets": "node scripts/scan-secrets.js",
+    "test": "node scripts/selftest.js && node scripts/test-connectors.js && node scripts/test-webtools.js && node scripts/test-extract.js && node scripts/test-bridge.js && node scripts/test-mission-runtime.js && node scripts/test-phase3.js && node scripts/test-phase3-hardening.js && node scripts/test-phase4.js && node scripts/test-phase5.js && node scripts/scan-secrets.js",
+    "smoke": "electron scripts/smoke-electron.js",
+    "build:win:installer": "npm run prepare:app && cross-env ORION_TARGET=installer electron-builder --win --x64 --config electron-builder.config.js --publish never",
+    "build:win:portable": "npm run prepare:app && cross-env ORION_TARGET=portable electron-builder --win --x64 --config electron-builder.config.js --publish never",
+    "build:win:all": "npm run build:win:installer && npm run build:win:portable && npm run verify:release && npm run release:finalize",
+    "verify:release": "npm test && node scripts/verify-release.js",
+    "release:finalize": "node scripts/make-release.js",
+    "dist:win": "npm run prepare:app && electron-builder --win --config electron-builder.config.js --publish never",
+    "dist:mac": "npm run prepare:app && electron-builder --mac --config electron-builder.config.js --publish never",
+    "dist:win:legacy": "cross-env ORION_PROFILE=legacy npm run dist:win",
+    "dist:mac:legacy": "cross-env ORION_PROFILE=legacy npm run dist:mac",
+    "legacy:electron": "npm install --no-save electron@22.3.27",
+    "dist:linux": "npm run prepare:app && electron-builder --linux --config electron-builder.config.js --publish never",
+    "test:phaseD": "node scripts/pg-harness.js --run scripts/test-phaseD-mobile.js",
+    "mobile:install": "cd mobile && npm install",
+    "mobile:test": "cd mobile && npm test",
+    "mobile:typecheck": "cd mobile && npm run typecheck",
+    "mobile:bundle": "cd mobile && npm run bundle",
+    "mobile:prebuild": "cd mobile && npx expo prebuild",
+    "mobile:build:android": "cd mobile/android && gradlew assembleRelease",
+    "mobile:build:ios": "cd mobile/ios && pod install && xcodebuild -workspace ORION.xcworkspace -scheme ORION -configuration Release"
+  },
+  "devDependencies": {
+    "@fontsource/inter": "^5.0.0",
+    "@fontsource/jetbrains-mono": "^5.0.0",
+    "@fontsource/space-grotesk": "^5.0.0",
+    "cross-env": "^7.0.3",
+    "electron": "^43.0.0",
+    "electron-builder": "^26.0.0"
+  },
+  "dependencies": {
+    "electron-updater": "^6.3.0"
+  },
+  "allowScripts": {
+    "electron-winstaller@5.4.0": true,
+    "@embedded-postgres/windows-x64@17.10.0-beta.17": true
+  },
+  "optionalDependencies": {
+    "pg": "^8.13.0"
+  }
+}

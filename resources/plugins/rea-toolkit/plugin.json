@@ -1,0 +1,60 @@
+{
+  "id": "rea-toolkit",
+  "name": "REA Toolkit",
+  "version": "1.0.0",
+  "author": "ORION",
+  "description": "Prompt investigasi reverse engineering berbasis bukti untuk server MCP REA (aktifkan di Desktop Hub → REA). Hanya untuk target yang sah.",
+  "permissions": [
+    "mcp:rea"
+  ],
+  "commands": [
+    {
+      "id": "explain-feature",
+      "title": "Pahami cara kerja sebuah fitur",
+      "input": "Aplikasi (nama atau path absolut) dan fitur yang ingin dipahami",
+      "prompt": "Selidiki dengan tool REA bagaimana fitur berikut bekerja, mengikuti skill REA Reverse Engineering. Pastikan target jelas (path absolut), mulai ringkas, dan akhiri dengan: (1) penjelasan singkat, (2) tabel klaim | Evidence ID | keyakinan, (3) daftar yang belum diketahui.\n\nTarget & fitur:\n{{input}}"
+    },
+    {
+      "id": "inspect-js-app",
+      "title": "Analisis aplikasi JS/Electron",
+      "input": "Path absolut folder atau ASAR aplikasi",
+      "prompt": "Analisis aplikasi JavaScript/Electron ini dengan REA: jalankan analisis berdetail summary, lalu lihat modul utama, batas Electron (main/preload/renderer), IPC, dan impor penting lewat tampilan terfokus. Rangkum arsitekturnya dan kutip Evidence.\n\nPath:\n{{input}}"
+    },
+    {
+      "id": "compare-versions",
+      "title": "Bandingkan dua versi aplikasi",
+      "input": "Dua path absolut (versi lama dan baru), satu per baris",
+      "prompt": "Bandingkan dua versi aplikasi berikut dengan REA (mulai dari ringkasan, lalu halaman terfokus). Laporkan perubahan fitur, modul, dependensi, dan batas Electron/IPC; pisahkan yang teramati dari yang diinferensikan.\n\nVersi:\n{{input}}"
+    },
+    {
+      "id": "inspect-dotnet",
+      "title": "Inspeksi assembly .NET",
+      "input": "Path absolut assembly (.dll/.exe)",
+      "prompt": "Inspeksi assembly .NET ini dengan REA: identitas dan bentuk deploy dulu, lalu tipe/anggota yang relevan. Jelaskan struktur dan perilaku utamanya tanpa menjalankan assembly.\n\nPath:\n{{input}}"
+    },
+    {
+      "id": "inspect-apk",
+      "title": "Inspeksi paket Android (APK)",
+      "input": "Path absolut berkas APK",
+      "prompt": "Inspeksi APK ini dengan REA: deklarasi manifest, kelas dan method penting, serta referensi statis. Rangkum komponen, izin, dan alur fitur utama dengan bukti.\n\nPath:\n{{input}}"
+    },
+    {
+      "id": "inspect-firmware",
+      "title": "Inspeksi image firmware",
+      "input": "Path absolut image firmware",
+      "prompt": "Inspeksi image firmware ini dengan REA (hanya inventori region). Jangan mengekstrak kecuali saya minta; bila perlu ekstraksi, usulkan direktori keluaran absolut yang baru dan tunggu persetujuan saya.\n\nPath:\n{{input}}"
+    },
+    {
+      "id": "behavior-spec",
+      "title": "Spesifikasi perilaku → implementasi sendiri",
+      "input": "Ringkasan temuan + stack/proyek target Anda",
+      "prompt": "Berdasarkan temuan investigasi berikut, tulis spesifikasi PERILAKU yang teramati (input, output, state, protokol, kasus tepi, hal yang belum diketahui) lalu rencana implementasi mandiri (clean-room) di stack saya. Jangan menyalin kode atau aset terproteksi; tandai bagian yang bergantung pada inferensi.\n\nTemuan & stack:\n{{input}}"
+    },
+    {
+      "id": "investigation-checklist",
+      "title": "Susun checklist investigasi",
+      "input": "Tujuan investigasi",
+      "prompt": "Ubah tujuan berikut menjadi checklist pertanyaan investigasi, bukti yang dibutuhkan tiap jawaban, tool REA yang kemungkinan dipakai, urutan kerja dari paling murah, dan risiko/izin yang perlu saya setujui.\n\nTujuan:\n{{input}}"
+    }
+  ]
+}

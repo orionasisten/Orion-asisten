@@ -1,0 +1,70 @@
+name: Build installer ORION
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Rilis modern: installer NSIS + portable x64 + uji runtime + checksum (per-user, tanpa admin).
+          - { os: windows-latest, script: 'build:win:all', profile: modern }
+          - { os: windows-latest, script: 'dist:win', profile: legacy }
+          - { os: macos-latest,   script: 'dist:mac', profile: modern }
+          - { os: macos-latest,   script: 'dist:mac', profile: legacy }
+          - { os: ubuntu-latest,  script: 'dist:linux', profile: modern }
+    runs-on: ${{ matrix.os }}
+    env:
+      ORION_PROFILE: ${{ matrix.profile }}
+      ORION_UPDATE_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install
+      - name: Electron 22 untuk profil legacy
+        if: matrix.profile == 'legacy'
+        run: npm install --no-save electron@22.3.27
+      - name: Build installer
+        run: npm run ${{ matrix.script }}
+        env:
+          # Opsional — isi di Settings > Secrets repo untuk code signing.
+          CSC_LINK: ${{ secrets.CSC_LINK }}
+          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: orion-${{ matrix.os }}-${{ matrix.profile }}
+          path: |
+            dist/${{ matrix.profile }}/*.exe
+            dist/${{ matrix.profile }}/*.dmg
+            dist/${{ matrix.profile }}/*.AppImage
+            dist/${{ matrix.profile }}/*.deb
+            dist/${{ matrix.profile }}/*.tar.gz
+            dist/${{ matrix.profile }}/*.zip
+            dist/${{ matrix.profile }}/*.yml
+            dist/${{ matrix.profile }}/*.blockmap
+            release/*
+          if-no-files-found: error
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/*
